@@ -29,3 +29,28 @@ function getEnquete() {
 
 
 
+
+function deleteItem(item) {
+    $.ajax({
+        async: true,
+        url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('SolicitacaoEquipamentos')/items(" + item + ")",
+        method: "DELETE",
+        headers: { //obrigatório
+            "accept": "application/json;odata=verbose",
+            "content-type": "application/json;odata=verbose",
+            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+            "IF-MATCH": "*",
+            "X-HTTP-Method": "DELETE"
+        },
+        success: function (data) {
+
+            $('#solicitacoes').empty();
+            getSolicitacaoEquipamentos();
+            console.log("deletado com sucesso");
+        },
+        error: function (error) {
+            console.log(JSON.stringify(error));
+        }
+    })
+}
+
