@@ -54,3 +54,41 @@ function deleteItem(item) {
     })
 }
 
+function createListItem() {
+    var eNome = $('#txtNome').val();
+    var eMatricula = $('#txtMatricula').val();
+    var eDepartamento = $('#txtDepartamento').val();
+    var eEquipamentos = $('#txtEquipamentos').val();
+
+    $.ajax({
+        async: true,
+        url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('SolicitacaoEquipamentos')/items",
+        method: "POST",
+        data: JSON.stringify({
+            '__metadata': { 'type': 'SP.Data.SolicitacaoEquipamentosListItem' },
+            'Nome': eNome,
+            'Martricula': eMatricula,
+            'Departamento': eDepartamento,
+            'Equipamentos': eEquipamentos
+        }),
+        headers: {
+            "accept": "application/json;odata=verbose",
+            "content-type": "application/json;odata=verbose",
+            "X-RequestDigest": $("#__REQUESTDIGEST").val()
+        },
+        success: function (data) {
+
+            var eNome = $('#txtNome').val("");
+            var eMatricula = $('#txtMatricula').val("");
+            var eDepartamento = $('#txtDepartamento').val("");
+            var eEquipamentos = $('#txtEquipamentos').val("");
+
+            $('#solicitacoes').empty();
+            getSolicitacaoEquipamentos();
+        },
+        error: function (error) {
+            console.log(JSON.stringify(error));
+        }
+    })
+}
+
